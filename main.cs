@@ -68,9 +68,19 @@ namespace Guard_Check_Analyzer
                     }
                     else
                     {
-                        string datesort = dateTimePicker1.Value.ToString("dd/MM/yyyy");
-                        mycommand.CommandText =
-                        "SELECT location_name,substr(CAST(created_at as nvarchar(20)), 0, 11)AS date,substr(CAST(created_at as nvarchar(20)), -5, 5)AS time,guard_name,remarks, sysID FROM checkhistory WHERE date = '" + datesort + "' GROUP BY date,location_name ORDER BY sysID ASC;";
+                        DateTime ftDate = new DateTime(2020, 07, 14);
+                        if (dateTimePicker1.Value > ftDate)
+                        {
+                            string datesort = dateTimePicker1.Value.ToString("yyyy-MM-dd");
+                            mycommand.CommandText =
+                            "SELECT location_name,substr(CAST(created_at as nvarchar(20)), 0, 11)AS date,substr(CAST(created_at as nvarchar(20)), -5, 5)AS time,guard_name,remarks, sysID FROM checkhistory WHERE date = '" + datesort + "' GROUP BY date,location_name ORDER BY sysID ASC;";
+                        }
+                        else
+                        {
+                            string datesort = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+                            mycommand.CommandText =
+                            "SELECT location_name,substr(CAST(created_at as nvarchar(20)), 0, 11)AS date,substr(CAST(created_at as nvarchar(20)), -5, 5)AS time,guard_name,remarks, sysID FROM checkhistory WHERE date = '" + datesort + "' GROUP BY date,location_name ORDER BY sysID ASC;";
+                        }
                     }
                     SQLiteDataReader reader = mycommand.ExecuteReader();
                     dt.Load(reader);
